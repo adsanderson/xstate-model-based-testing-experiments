@@ -16,33 +16,33 @@ import { assign, Machine } from "xstate";
 
 describe("Iterate through all paths in component", () => {
   test(`Light component`, () => {
-    const lookup = {
+    const interactions = {
       green: {
-        confirmState: container => expectStateToBe(container, "green"),
-        SWITCH: container => clickEvent(container, "Switch"),
-        STOP: container => clickEvent(container, "STOP!")
+        confirmState: container => expectComponentToShow(container, "green"),
+        SWITCH: container => clickButtonWithText(container, "Switch"),
+        STOP: container => clickButtonWithText(container, "STOP!")
       },
       amber: {
-        confirmState: container => expectStateToBe(container, "amber"),
-        SWITCH: container => clickEvent(container, "Switch"),
-        STOP: container => clickEvent(container, "STOP!")
+        confirmState: container => expectComponentToShow(container, "amber"),
+        SWITCH: container => clickButtonWithText(container, "Switch"),
+        STOP: container => clickButtonWithText(container, "STOP!")
       },
       red: {
-        confirmState: container => expectStateToBe(container, "red"),
-        SWITCH: container => clickEvent(container, "Switch"),
-        STOP: container => clickEvent(container, "STOP!")
+        confirmState: container => expectComponentToShow(container, "red"),
+        SWITCH: container => clickButtonWithText(container, "Switch"),
+        STOP: container => clickButtonWithText(container, "STOP!")
       }
     };
 
-    testModel(lightMachine, <Light />, lookup);
+    testModel(lightMachine, <Light />, interactions);
   });
 });
 
-function clickEvent(container, buttonText, expectedValue) {
+function clickButtonWithText(container, buttonText, expectedValue) {
   fireEvent.click(getByText(container, buttonText));
 }
 
-function expectStateToBe(container, expected) {
+function expectComponentToShow(container, expected) {
   expect(getByTestId(container, "state-value").innerText).toBe(expected);
 }
 
