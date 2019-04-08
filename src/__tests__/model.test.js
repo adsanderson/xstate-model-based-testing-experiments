@@ -12,29 +12,25 @@ import { getSimplePaths } from "@xstate/graph";
 import { Light } from "../light-component";
 import { lightMachine } from "../light-machine";
 
+import { assign, Machine } from "xstate";
+
 describe("Iterate through all paths in component", () => {
   test(`Light component`, () => {
     const lookup = {
       green: {
         confirmState: container => expectStateToBe(container, "green"),
-        SWITCH: (container, expectedValue) =>
-          clickEvent(container, "switch", expectedValue),
-        STOP: (container, expectedValue) =>
-          clickEvent(container, "STOP!", expectedValue)
+        SWITCH: container => clickEvent(container, "Switch"),
+        STOP: container => clickEvent(container, "STOP!")
       },
       amber: {
         confirmState: container => expectStateToBe(container, "amber"),
-        SWITCH: (container, expectedValue) =>
-          clickEvent(container, "switch", expectedValue),
-        STOP: (container, expectedValue) =>
-          clickEvent(container, "STOP!", expectedValue)
+        SWITCH: container => clickEvent(container, "Switch"),
+        STOP: container => clickEvent(container, "STOP!")
       },
       red: {
         confirmState: container => expectStateToBe(container, "red"),
-        SWITCH: (container, expectedValue) =>
-          clickEvent(container, "switch", expectedValue),
-        STOP: (container, expectedValue) =>
-          clickEvent(container, "STOP!", expectedValue)
+        SWITCH: container => clickEvent(container, "Switch"),
+        STOP: container => clickEvent(container, "STOP!")
       }
     };
 
@@ -43,11 +39,10 @@ describe("Iterate through all paths in component", () => {
 });
 
 function clickEvent(container, buttonText, expectedValue) {
-  fireEvent.click(getByText(container, "Switch"));
+  fireEvent.click(getByText(container, buttonText));
 }
 
 function expectStateToBe(container, expected) {
-  console.log(getByTestId(container, "state-value").innerText, expected);
   expect(getByTestId(container, "state-value").innerText).toBe(expected);
 }
 
@@ -55,9 +50,19 @@ function logStateValue(container) {
   console.log(getByTestId(container, "state-value").innerText);
 }
 
+function logEventType(eventType) {
+  console.log(`  |
+  V`);
+  console.log(eventType);
+  console.log(`  |
+  V`);
+}
+
 function testModel(model, component, interactions) {
   const p = Object.values(getSimplePaths(model));
   const pathList = p.map(m => m.paths).flat();
+
+  console.log("Total number of paths", pathList.length);
 
   pathList.forEach(steps => {
     console.log("START ------------------------------------------------------");
@@ -66,9 +71,9 @@ function testModel(model, component, interactions) {
     steps.forEach(step => {
       const func = interactions[step.state.value][step.event.type];
       func(container, step.state.value);
+      logEventType(step.event.type);
       logStateValue(container);
       const nextState = model.transition(step.state.value, step.event.type);
-      console.log("Next state", nextState.value);
       interactions[nextState.value].confirmState(container, nextState.value);
     });
     console.log("STOP -------------------------------------------------------");
