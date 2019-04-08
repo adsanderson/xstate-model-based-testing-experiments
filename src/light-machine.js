@@ -16,7 +16,7 @@ export const lightMachine = Machine({
     },
     red: {
       on: {
-        SWITCH: "red"
+        SWITCH: "green"
       }
     }
   }
