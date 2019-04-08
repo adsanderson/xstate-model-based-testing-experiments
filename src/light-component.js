@@ -10,6 +10,7 @@ export function Light() {
     <div>
       {current.value}
       <button onClick={() => send("SWITCH")}>Switch</button>
+      <button onClick={() => send("STOP")}>STOP!</button>
     </div>
   );
 }

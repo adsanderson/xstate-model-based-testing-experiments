@@ -19,5 +19,8 @@ export const lightMachine = Machine({
         SWITCH: "green"
       }
     }
+  },
+  on: {
+    STOP: "red"
   }
 });
