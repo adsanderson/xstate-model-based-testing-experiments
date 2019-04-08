@@ -8,7 +8,7 @@ export function Light() {
 
   return (
     <div>
-      {current.value}
+      <div data-testid="state-value">{current.value}</div>
       <button onClick={() => send("SWITCH")}>Switch</button>
       <button onClick={() => send("STOP")}>STOP!</button>
     </div>
