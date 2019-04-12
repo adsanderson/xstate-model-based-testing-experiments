@@ -1,4 +1,4 @@
-import { Machine, assign } from "xstate";
+import { Machine } from "xstate";
 
 export const lightMachine = Machine(
   {
