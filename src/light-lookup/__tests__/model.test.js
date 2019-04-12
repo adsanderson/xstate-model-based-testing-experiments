@@ -12,8 +12,6 @@ import { getSimplePaths } from "@xstate/graph";
 import { Light } from "../light-component";
 import { lightMachine } from "../light-machine";
 
-import { assign, Machine } from "xstate";
-
 describe("Iterate through all paths in component", () => {
   test(`Light component`, () => {
     const interactions = {

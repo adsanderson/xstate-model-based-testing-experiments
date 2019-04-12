@@ -1,16 +1,13 @@
 import { Machine, assign } from "xstate";
 
-const count = assign({
-  tranistions: ctx => ctx + 1
-});
-
 export const lightMachine = Machine(
   {
     id: "light",
     initial: "green",
-    context: {
-      tranistions: 0
-    },
+    // count blows up the graph
+    // context: {
+    //   count: 0
+    // },
     states: {
       green: {
         onEntry: ["countTransitions"],
@@ -19,11 +16,13 @@ export const lightMachine = Machine(
         }
       },
       amber: {
+        onEntry: ["countTransitions"],
         on: {
           SWITCH: "red"
         }
       },
       red: {
+        onEntry: ["countTransitions"],
         on: {
           SWITCH: "green"
         }
@@ -35,7 +34,9 @@ export const lightMachine = Machine(
   },
   {
     actions: {
-      countTransitions: count
+      countTransitions: () => {
+        return;
+      } // this blows up the graph paths !!!!! assign({ count: ctx => ctx.count + 1 })
     }
   }
 );

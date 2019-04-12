@@ -36,9 +36,6 @@ export function Light() {
       <h2 data-testid="state-value" style={buttonLook[current.value]}>
         {current.value}
       </h2>
-      <h3 data-testid="state-value" style={buttonLook[current.value]}>
-        {current.context.tranistions}
-      </h3>
       <button onClick={() => send("SWITCH")}>Switch</button>
       <button onClick={() => send("STOP")}>STOP!</button>
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./styles.css";
-import { Light } from "./light-component";
+import { Light } from "./light-lookup/light-component";
 
 function App() {
   return (
